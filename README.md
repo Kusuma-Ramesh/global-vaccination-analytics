@@ -16,28 +16,57 @@ FastAPI REST API
       ↓
 React + Vite Dashboard
 
-## Project Structure
-
 vaccination-project/
+|
 ├── backend/
-│   ├── app/                # FastAPI application
-│   ├── data/               # WHO Excel datasets
-│   ├── etl/                # Data extraction, transformation and loading
-│   ├── sql/                # Database schema
-│   ├── .env.example        # Database configuration template
-│   ├── requirements.txt    # Python dependencies
-│   └── README.md           # Backend setup and documentation
+│   ├── app/
+│   │   ├── routers/
+│   │   ├── config.py
+│   │   ├── database.py
+│   │   ├── main.py
+│   │   ├── models.py
+│   │   └── schemas.py
+│   │
+│   ├── data/
+│   │   ├── coverage-data.xlsx
+│   │   ├── incidence-rate-data.xlsx
+│   │   ├── reported-cases-data.xlsx
+│   │   ├── vaccine-introduction-data.xlsx
+│   │   └── vaccine-schedule-data.xlsx
+│   │
+│   ├── etl/
+│   │   ├── clean_and_load.py
+│   │   ├── extract.py
+│   │   ├── load.py
+│   │   └── transform.py
+│   │
+│   ├── sql/
+│   │   └── schema.sql
+│   │
+│   ├── .env.example
+│   ├── README.md
+│   └── requirements.txt
 │
 ├── frontend/
-│   ├── public/             # Public frontend assets
-│   ├── src/                # React application
-│   ├── .env.example        # Frontend configuration template
-│   ├── package.json        # Node.js dependencies
-│   └── README.md           # Frontend setup and documentation
+│   ├── public/
+│   ├── src/
+│   │   ├── components/
+│   │   ├── pages/
+│   │   ├── api.js
+│   │   ├── App.jsx
+│   │   ├── chartSetup.js
+│   │   ├── index.css
+│   │   └── main.jsx
+│   │
+│   ├── .env.example
+│   ├── index.html
+│   ├── package.json
+│   ├── package-lock.json
+│   └── vite.config.js
 │
 ├── Vaccination_Intelligence_FINAL.pbix
-├── .gitignore
-└── README.md
+├── README.md
+└── .gitignore
 
 ## Technology Stack
 
