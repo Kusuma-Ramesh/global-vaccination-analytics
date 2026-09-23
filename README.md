@@ -66,13 +66,13 @@ vaccination-project/
 
 ## Quick Start
 
+Follow these steps to run the Global Vaccination Analytics project locally.
+
 ### 1. Backend Setup
 
-Make sure PostgreSQL is installed and running.
+Open PowerShell from the project folder and run:
 
-Open PowerShell from the project root:
-
-cd backend
+cd C:\vaccination-project\backend
 
 Create a Python virtual environment:
 
@@ -82,7 +82,7 @@ Activate the environment:
 
 .\.venv\Scripts\Activate.ps1
 
-Install the required Python packages:
+Install the required packages:
 
 pip install -r requirements.txt
 
@@ -90,43 +90,45 @@ Create the environment configuration file:
 
 Copy-Item .env.example .env
 
-Update `.env` with your PostgreSQL database credentials.
+Open the `.env` file and enter your PostgreSQL database credentials.
 
-Run the ETL pipeline:
+Make sure PostgreSQL is installed and running.
+
+Run the ETL pipeline to process the WHO Excel datasets and load the data into PostgreSQL:
 
 python -m etl.clean_and_load
 
-Start the FastAPI server:
+After the ETL completes successfully, start the FastAPI backend:
 
 uvicorn app.main:app --reload --port 8000
 
-The API will be available at:
+The backend will be available at:
 
 http://localhost:8000
 
-The analytics endpoint is:
+The main analytics endpoint is:
 
 http://localhost:8000/api/analytics/summary
 
-For detailed backend instructions, see:
+Keep this terminal running.
 
-backend/README.md
+For detailed backend instructions, see `backend/README.md`.
 
 ### 2. Frontend Setup
 
-Open a second PowerShell terminal and navigate to the frontend:
+Open a second PowerShell terminal and run:
 
-cd frontend
+cd C:\vaccination-project\frontend
 
-Install the Node.js dependencies:
+Install the required Node.js packages:
 
 npm install
 
-Create the frontend environment file:
+Create the frontend environment configuration file:
 
 Copy-Item .env.example .env
 
-Start the development server:
+Start the React development server:
 
 npm run dev
 
@@ -134,9 +136,52 @@ The dashboard will be available at:
 
 http://localhost:5173
 
-For detailed frontend instructions, see:
+Open this address in your browser.
 
-frontend/README.md
+For detailed frontend instructions, see `frontend/README.md`.
+
+### 3. Application Flow
+
+The project works through the following pipeline:
+
+WHO Excel Data
+        ↓
+Pandas ETL Pipeline
+        ↓
+PostgreSQL Database
+        ↓
+FastAPI Backend
+        ↓
+React Dashboard
+
+### 4. Quick Reference
+
+PostgreSQL:
+Make sure the PostgreSQL service is running.
+
+ETL Pipeline:
+python -m etl.clean_and_load
+
+FastAPI Backend:
+uvicorn app.main:app --reload --port 8000
+
+Backend:
+http://localhost:8000
+
+Analytics API:
+http://localhost:8000/api/analytics/summary
+
+React Dashboard:
+npm run dev
+
+Frontend:
+http://localhost:5173
+
+### Important
+
+Run the ETL pipeline before using the dashboard so that the WHO datasets are loaded into PostgreSQL.
+
+Keep both the FastAPI backend terminal and React frontend terminal running while using the dashboard.
 
 ## Data Sources
 
