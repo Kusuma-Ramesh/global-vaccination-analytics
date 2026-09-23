@@ -1,406 +1,450 @@
 # Global Vaccination Analytics Project
 
-A full-stack public-health analytics project built using WHO immunization data. The project analyzes vaccination coverage, disease incidence, reported cases, vaccine introduction, and vaccine schedule data to surface insights into vaccination trends, dose drop-off, regional disparities, vaccine rollout, and the relationship between vaccination coverage and disease incidence.
+A full-stack public-health analytics project built using WHO immunization data. The project analyzes vaccination coverage, disease incidence, reported cases, vaccine introduction, and immunization schedules to provide interactive insights into global vaccination trends and disease burden.
 
-This project is a Python full-stack implementation of the original project brief, which specified SQL and Power BI. The current implementation provides a complete data pipeline and interactive web dashboard that can be developed and run locally from PyCharm.
+The implementation combines a Python ETL pipeline, PostgreSQL database, FastAPI backend, React dashboard, and Power BI report.
+
+---
 
 ## Architecture
 
-WHO Excel Files
-      ↓
-Pandas ETL Pipeline
-      ↓
-PostgreSQL Database
-      ↓
-FastAPI REST API
-      ↓
-React + Vite Dashboard
+    WHO Excel Datasets
+            ↓
+    Pandas ETL Pipeline
+            ↓
+    PostgreSQL Database
+            ↓
+    FastAPI REST API
+            ↓
+    React + Vite Dashboard
 
-vaccination-project/
-|
-├── backend/
-│   ├── app/
-│   │   ├── routers/
-│   │   ├── config.py
-│   │   ├── database.py
-│   │   ├── main.py
-│   │   ├── models.py
-│   │   └── schemas.py
-│   │
-│   ├── data/
-│   │   ├── coverage-data.xlsx
-│   │   ├── incidence-rate-data.xlsx
-│   │   ├── reported-cases-data.xlsx
-│   │   ├── vaccine-introduction-data.xlsx
-│   │   └── vaccine-schedule-data.xlsx
-│   │
-│   ├── etl/
-│   │   ├── clean_and_load.py
-│   │   ├── extract.py
-│   │   ├── load.py
-│   │   └── transform.py
-│   │
-│   ├── sql/
-│   │   └── schema.sql
-│   │
-│   ├── .env.example
-│   ├── README.md
-│   └── requirements.txt
-│
-├── frontend/
-│   ├── public/
-│   ├── src/
-│   │   ├── components/
-│   │   ├── pages/
-│   │   ├── api.js
-│   │   ├── App.jsx
-│   │   ├── chartSetup.js
-│   │   ├── index.css
-│   │   └── main.jsx
-│   │
-│   ├── .env.example
-│   ├── index.html
-│   ├── package.json
-│   ├── package-lock.json
-│   └── vite.config.js
-│
-├── Vaccination_Intelligence_FINAL.pbix
-├── README.md
-└── .gitignore
+    PostgreSQL Database
+            ↓
+       Power BI Report
+
+---
 
 ## Technology Stack
 
-### Data and Backend
+| Layer | Technologies |
+|---|---|
+| Data Source | WHO Immunization Data Portal |
+| Data Processing | Python, Pandas |
+| Database | PostgreSQL |
+| Backend | FastAPI, SQLAlchemy, Uvicorn |
+| Frontend | React, Vite |
+| Visualization | Chart.js, Framer Motion |
+| Business Intelligence | Microsoft Power BI |
+| Version Control | Git, GitHub |
 
-- Python
-- Pandas
-- PostgreSQL
-- SQLAlchemy
-- FastAPI
-- Uvicorn
+---
 
-### Frontend
+## Project Structure
 
-- React
-- Vite
-- Chart.js
-- Framer Motion
-- Axios
-- React Router
+    vaccination-project/
+    ├── backend/
+    │   ├── app/
+    │   │   ├── routers/
+    │   │   │   ├── analytics.py
+    │   │   │   ├── coverage.py
+    │   │   │   ├── disease.py
+    │   │   │   ├── lookups.py
+    │   │   │   └── vaccines.py
+    │   │   ├── config.py
+    │   │   ├── database.py
+    │   │   ├── main.py
+    │   │   ├── models.py
+    │   │   └── schemas.py
+    │   ├── data/
+    │   │   ├── coverage-data.xlsx
+    │   │   ├── incidence-rate-data.xlsx
+    │   │   ├── reported-cases-data.xlsx
+    │   │   ├── vaccine-introduction-data.xlsx
+    │   │   └── vaccine-schedule-data.xlsx
+    │   ├── etl/
+    │   │   ├── clean_and_load.py
+    │   │   ├── extract.py
+    │   │   ├── load.py
+    │   │   └── transform.py
+    │   ├── sql/
+    │   │   └── schema.sql
+    │   ├── .env.example
+    │   ├── README.md
+    │   └── requirements.txt
+    ├── frontend/
+    │   ├── public/
+    │   ├── src/
+    │   │   ├── components/
+    │   │   │   ├── KpiCard.jsx
+    │   │   │   ├── PageTransition.jsx
+    │   │   │   ├── Sidebar.jsx
+    │   │   │   └── StatusMessage.jsx
+    │   │   ├── pages/
+    │   │   │   ├── Dashboard.jsx
+    │   │   │   ├── CoverageExplorer.jsx
+    │   │   │   ├── DiseaseExplorer.jsx
+    │   │   │   ├── VaccineIntroduction.jsx
+    │   │   │   └── Correlation.jsx
+    │   │   ├── api.js
+    │   │   ├── App.jsx
+    │   │   ├── chartSetup.js
+    │   │   ├── index.css
+    │   │   └── main.jsx
+    │   ├── .env.example
+    │   ├── index.html
+    │   ├── package.json
+    │   ├── package-lock.json
+    │   ├── README.md
+    │   └── vite.config.js
+    ├── Vaccination_Intelligence_FINAL.pbix
+    ├── README.md
+    └── .gitignore
 
-### Business Intelligence
-
-- Microsoft Power BI
-- PostgreSQL
-
-## Quick Start
-
-Follow these steps to run the Global Vaccination Analytics project locally.
-
-### 1. Backend Setup
-
-Open PowerShell from the project folder and run:
-
-cd C:\vaccination-project\backend
-
-Create a Python virtual environment:
-
-python -m venv .venv
-
-Activate the environment:
-
-.\.venv\Scripts\Activate.ps1
-
-Install the required packages:
-
-pip install -r requirements.txt
-
-Create the environment configuration file:
-
-Copy-Item .env.example .env
-
-Open the `.env` file and enter your PostgreSQL database credentials.
-
-Make sure PostgreSQL is installed and running.
-
-Run the ETL pipeline to process the WHO Excel datasets and load the data into PostgreSQL:
-
-python -m etl.clean_and_load
-
-After the ETL completes successfully, start the FastAPI backend:
-
-uvicorn app.main:app --reload --port 8000
-
-The backend will be available at:
-
-http://localhost:8000
-
-The main analytics endpoint is:
-
-http://localhost:8000/api/analytics/summary
-
-Keep this terminal running.
-
-For detailed backend instructions, see `backend/README.md`.
-
-### 2. Frontend Setup
-
-Open a second PowerShell terminal and run:
-
-cd C:\vaccination-project\frontend
-
-Install the required Node.js packages:
-
-npm install
-
-Create the frontend environment configuration file:
-
-Copy-Item .env.example .env
-
-Start the React development server:
-
-npm run dev
-
-The dashboard will be available at:
-
-http://localhost:5173
-
-Open this address in your browser.
-
-For detailed frontend instructions, see `frontend/README.md`.
-
-### 3. Application Flow
-
-The project works through the following pipeline:
-
-WHO Excel Data
-        ↓
-Pandas ETL Pipeline
-        ↓
-PostgreSQL Database
-        ↓
-FastAPI Backend
-        ↓
-React Dashboard
-
-### 4. Quick Reference
-
-PostgreSQL:
-Make sure the PostgreSQL service is running.
-
-ETL Pipeline:
-python -m etl.clean_and_load
-
-FastAPI Backend:
-uvicorn app.main:app --reload --port 8000
-
-Backend:
-http://localhost:8000
-
-Analytics API:
-http://localhost:8000/api/analytics/summary
-
-React Dashboard:
-npm run dev
-
-Frontend:
-http://localhost:5173
-
-### Important
-
-Run the ETL pipeline before using the dashboard so that the WHO datasets are loaded into PostgreSQL.
-
-Keep both the FastAPI backend terminal and React frontend terminal running while using the dashboard.
+---
 
 ## Data Sources
 
-The project uses five WHO Immunization Data Portal exports stored in `backend/data/`.
+The project uses five WHO Immunization Data Portal exports.
 
 | Dataset | Description |
 |---|---|
-| `coverage-data.xlsx` | Vaccination coverage by country, year, and antigen |
+| `coverage-data.xlsx` | Vaccination coverage percentages by country, year, and antigen |
 | `incidence-rate-data.xlsx` | Disease incidence rates by country, year, and disease |
 | `reported-cases-data.xlsx` | Reported disease cases by country, year, and disease |
 | `vaccine-introduction-data.xlsx` | Vaccine introduction information by country and vaccine |
 | `vaccine-schedule-data.xlsx` | National immunization schedules, dose rounds, target age, and population |
 
-## Data Pipeline
+All source datasets are stored in `backend/data/`.
 
-The ETL pipeline processes the WHO datasets through three main stages:
+---
 
-1. Extract — Reads the WHO Excel files using Pandas.
-2. Transform — Cleans and normalizes the datasets and creates dimension and fact tables.
-3. Load — Loads the transformed data into PostgreSQL.
+## ETL Pipeline
 
-The resulting database contains normalized tables for countries, diseases, vaccines, vaccination coverage, disease incidence, reported cases, vaccine introduction, and vaccine schedules.
+The ETL pipeline processes the WHO datasets through three stages.
+
+### 1. Extract
+
+Reads the WHO Excel datasets using Pandas.
+
+### 2. Transform
+
+Cleans and standardizes the source data and prepares normalized dimension and fact tables.
+
+### 3. Load
+
+Creates the PostgreSQL schema and loads the processed datasets into the database.
+
+The main ETL entry point is:
+
+    python -m etl.clean_and_load
+
+---
+
+## Database Design
+
+The PostgreSQL database uses a normalized structure consisting of dimension and fact tables.
+
+### Dimension Tables
+
+| Table | Purpose |
+|---|---|
+| `dim_country` | Country information |
+| `dim_disease` | Disease information |
+| `dim_vaccine` | Vaccine information |
+
+### Fact Tables
+
+| Table | Purpose |
+|---|---|
+| `fact_coverage` | Vaccination coverage measurements |
+| `fact_incidence_rate` | Disease incidence rates |
+| `fact_reported_cases` | Reported disease cases |
+| `fact_vaccine_introduction` | Vaccine introduction records |
+| `fact_vaccine_schedule` | Immunization schedule records |
+
+The database schema is available in `backend/sql/schema.sql`.
+
+---
 
 ## Dashboard
 
-The React dashboard provides five analytical areas.
+The React dashboard provides five analytical views.
 
-### Overview
+| Page | Purpose |
+|---|---|
+| Overview | Global vaccination KPIs and high-level trends |
+| Coverage Explorer | Country-level vaccination coverage and dose comparisons |
+| Disease Explorer | Disease burden and reported case trends |
+| Vaccine Rollout | Vaccine introduction trends across countries |
+| Coverage vs Disease | Relationship between vaccination coverage and disease incidence |
 
-Provides high-level vaccination intelligence including:
+---
 
-- Global DTP3 vaccination coverage
-- Total reported disease cases
-- Countries tracked
-- Countries with high DTP3 coverage
-- Diseases tracked
-- Global coverage distribution
-
-### Coverage Explorer
-
-Analyzes:
-
-- DTP3 vaccination coverage by country
-- Coverage distribution
-- High- and low-coverage countries
-- Vaccination coverage trends
-
-### Disease Explorer
-
-Analyzes:
-
-- Reported disease cases
-- Disease burden trends
-- Trends across selected diseases
-- Recent disease patterns
-
-### Vaccine Rollout
-
-Analyzes:
-
-- Vaccine introduction timelines
-- Vaccine rollout patterns
-- Differences in vaccine introduction across countries
-
-### Coverage vs. Disease
-
-Analyzes:
-
-- DTP3 vaccination coverage
-- Pertussis incidence
-- Correlation between vaccination coverage and disease incidence
-- Country-level outliers
-
-## Key Analysis Questions
-
-The project addresses questions such as:
-
-- How does vaccination coverage relate to disease incidence?
-- What is the coverage drop-off between the first and third DTP doses?
-- Which countries have relatively low vaccination coverage?
-- How do vaccine introduction timelines differ across countries?
-- Which countries show relatively high disease incidence alongside vaccination coverage?
-
-Some questions from the original project brief cannot be answered using the available WHO datasets. In particular, the provided datasets do not contain demographic breakdowns such as:
-
-- Gender
-- Education level
-- Urban versus rural population
-- Socioeconomic group
-
-These limitations are explicitly documented rather than being estimated or filled with unsupported data.
-
-## Power BI
-
-The project also includes a Power BI dashboard:
-
-Vaccination_Intelligence_FINAL.pbix
-
-The Power BI report provides additional analytical views, including:
-
-- Global vaccination coverage
-- Country-level coverage comparison
-- Disease burden trends
-- Vaccine introduction trends
-- DTP1 versus DTP3 coverage
-- DTP3 coverage versus pertussis incidence
-
-Power BI can also connect directly to the PostgreSQL database after the ETL pipeline has been executed.
-
-## Validation
-
-The project was validated locally using the following checks:
-
-- WHO datasets successfully processed through the ETL pipeline.
-- PostgreSQL database populated successfully.
-- FastAPI application started successfully on port 8000.
-- Analytics API returned live database-derived results.
-- React frontend loaded all five dashboard pages successfully.
-- `npm run lint` completed with 0 warnings and 0 errors.
-- `npm run build` completed successfully.
-- Dashboard data was sourced from the PostgreSQL/FastAPI pipeline rather than mock data.
-
-## Current Dataset Summary
-
-Based on the processed WHO datasets:
+## Key Dashboard Metrics
 
 | Metric | Value |
 |---|---:|
-| Countries tracked | 214 |
-| Diseases tracked | 13 |
-| Latest available year | 2023 |
-| Global DTP3 coverage | 85.88% |
-| Total reported cases | 5,889,519 |
-| Countries with ≥90% DTP3 coverage | 107 |
+| Countries Tracked | 214 |
+| Diseases Tracked | 13 |
+| Latest Available Year | 2023 |
+| Global DTP3 Coverage | 85.88% |
+| Total Reported Cases | 5,889,519 |
+| Countries with ≥90% DTP3 Coverage | 107 |
 
-## Submission Mapping
+---
 
-The original project brief requested SQL, a normalized database, Power BI dashboards, and documentation. The implementation maps these requirements as follows:
+## Key Analysis Questions
 
-| Original Requirement | Project Implementation |
+The project provides analysis for questions such as:
+
+- How does vaccination coverage relate to disease incidence?
+- What is the coverage difference between the first and third doses?
+- Which countries have relatively low DTP3 coverage?
+- How has disease burden changed over time?
+- How have vaccine introductions changed across countries?
+- Which countries show high disease incidence despite vaccination coverage?
+- What are the global vaccination coverage patterns?
+
+---
+
+# Quick Start
+
+Follow the steps below to run the project locally.
+
+## 1. Backend Setup
+
+Make sure PostgreSQL is installed and running.
+
+Open PowerShell from the project directory:
+
+    cd C:\vaccination-project\backend
+
+Create a Python virtual environment:
+
+    python -m venv .venv
+
+Activate the environment:
+
+    .\.venv\Scripts\Activate.ps1
+
+Install the required packages:
+
+    pip install -r requirements.txt
+
+Create the environment configuration file:
+
+    Copy-Item .env.example .env
+
+Open `.env` and enter your PostgreSQL database credentials.
+
+Run the ETL pipeline:
+
+    python -m etl.clean_and_load
+
+After the ETL completes successfully, start the FastAPI backend:
+
+    uvicorn app.main:app --reload --port 8000
+
+Backend:
+
+    http://localhost:8000
+
+Analytics API:
+
+    http://localhost:8000/api/analytics/summary
+
+Keep this terminal running.
+
+For detailed backend instructions, see `backend/README.md`.
+
+---
+
+## 2. Frontend Setup
+
+Open a second PowerShell terminal.
+
+Navigate to the frontend:
+
+    cd C:\vaccination-project\frontend
+
+Install the Node.js dependencies:
+
+    npm install
+
+Create the frontend environment file:
+
+    Copy-Item .env.example .env
+
+Start the React development server:
+
+    npm run dev
+
+Dashboard:
+
+    http://localhost:5173
+
+Open the address above in your browser.
+
+For detailed frontend instructions, see `frontend/README.md`.
+
+---
+
+## 3. Application Flow
+
+| Step | Action |
+|---:|---|
+| 1 | Start PostgreSQL |
+| 2 | Run the ETL pipeline |
+| 3 | Start the FastAPI backend |
+| 4 | Start the React frontend |
+| 5 | Open the dashboard in a browser |
+
+### Important
+
+- Run the ETL pipeline before using the dashboard if the database has not already been populated.
+- Keep the FastAPI backend running while using the React dashboard.
+- Keep the React development server running while using the dashboard.
+- PostgreSQL must be available for the backend to retrieve data.
+
+---
+
+## API
+
+The FastAPI backend provides endpoints for the dashboard's analytical requirements.
+
+| Endpoint Group | Purpose |
 |---|---|
-| SQL scripts | `backend/sql/schema.sql` |
-| Normalized database | PostgreSQL |
-| Data processing | `backend/etl/` |
-| Interactive dashboard | React + Vite |
-| Business intelligence dashboard | `Vaccination_Intelligence_FINAL.pbix` |
-| Documentation | Root and backend/frontend README files |
+| `/api/analytics` | Global analytical summaries |
+| `/api/coverage` | Vaccination coverage data |
+| `/api/disease` | Disease and reported-case data |
+| `/api/lookups` | Country, disease, and vaccine lookup data |
+| `/api/vaccines` | Vaccine introduction and schedule data |
 
-## Important Notes
+### Main Analytics Endpoint
 
-### Environment Variables
+    http://localhost:8000/api/analytics/summary
 
-The actual `.env` files are intentionally excluded from version control because they contain local configuration and database credentials.
+---
 
-Use the provided `.env.example` files as templates.
+## Power BI Report
 
-### Generated and Local Files
+The project includes the Power BI report:
 
-The repository excludes development-specific files such as:
+`Vaccination_Intelligence_FINAL.pbix`
 
-- Python virtual environments
-- Node.js `node_modules`
-- Build output
-- Python cache files
-- IDE configuration
-- Local `.env` files
-- Log files
+The report contains:
 
-These files are not required for the source-code submission.
+- Global vaccination KPI cards
+- Global DTP3 vaccination coverage
+- Country-level coverage analysis
+- Lowest DTP3 coverage countries
+- First-dose versus third-dose coverage
+- Disease burden trends
+- Vaccine introduction trends
+- DTP3 coverage versus pertussis incidence
+- Year-based filtering
 
-### ETL Warning
+The Power BI report uses the normalized PostgreSQL data model.
 
-The ETL process recreates the database tables when executed. Review the backend documentation before running the ETL pipeline against an existing database.
+---
 
-## Project Outcome
+## Validation
 
-The completed system provides an end-to-end vaccination analytics workflow:
+The project was validated locally before submission.
 
-WHO Public Health Data
-        ↓
-Data Extraction
-        ↓
-Data Cleaning & Transformation
-        ↓
-Normalized PostgreSQL Database
-        ↓
-FastAPI Data Services
-        ↓
-Interactive React Dashboard
-        +
-Power BI Analytics
+| Validation | Result |
+|---|---|
+| WHO datasets processed through ETL | Successful |
+| PostgreSQL database populated | Successful |
+| FastAPI application startup | Successful |
+| Analytics API response | Successful |
+| React dashboard pages | Successful |
+| `npm run lint` | 0 warnings, 0 errors |
+| `npm run build` | Successful |
+| Dashboard data source | PostgreSQL + FastAPI |
+| Mock dashboard data | Not used |
 
-The project combines data engineering, database design, REST API development, frontend visualization, and business intelligence into a single vaccination analytics platform.
+---
+
+## Dataset Validation Summary
+
+| Metric | Result |
+|---|---:|
+| Countries Tracked | 214 |
+| Diseases Tracked | 13 |
+| Latest Available Year | 2023 |
+| Global DTP3 Coverage | 85.88% |
+| Total Reported Cases | 5,889,519 |
+| Countries with ≥90% DTP3 Coverage | 107 |
+
+---
+
+## Data Limitations
+
+The available WHO datasets do not contain every demographic dimension mentioned in the original project brief.
+
+The following analyses cannot be directly produced from the supplied datasets:
+
+- Gender-based vaccination analysis
+- Education-level analysis
+- Urban versus rural comparison
+- Socioeconomic-group analysis
+
+These limitations are documented rather than estimated or filled with synthetic values.
+
+---
+
+## Security and Repository Notes
+
+Sensitive local configuration files are intentionally excluded from version control.
+
+The following files and directories are ignored:
+
+- `.env`
+- `.venv/`
+- `venv/`
+- `node_modules/`
+- `dist/`
+- `__pycache__/`
+- `*.pyc`
+- `.idea/`
+- `*.log`
+- `.DS_Store`
+
+Actual local PostgreSQL credentials are not included in the repository.
+
+The repository contains the source code, ETL pipeline, SQL schema, WHO datasets, configuration examples, documentation, React dashboard, and Power BI report.
+
+---
+
+## Deliverables
+
+| Deliverable | Location |
+|---|---|
+| Python ETL Pipeline | `backend/etl/` |
+| PostgreSQL Schema | `backend/sql/schema.sql` |
+| FastAPI Backend | `backend/app/` |
+| WHO Datasets | `backend/data/` |
+| React Dashboard | `frontend/` |
+| Power BI Report | `Vaccination_Intelligence_FINAL.pbix` |
+| Main Documentation | `README.md` |
+| Backend Documentation | `backend/README.md` |
+| Frontend Documentation | `frontend/README.md` |
+
+---
+
+## Project Status
+
+The project has been validated locally and committed to GitHub.
+
+The repository contains the complete implementation, including:
+
+- WHO vaccination datasets
+- Pandas ETL pipeline
+- Normalized PostgreSQL database schema
+- FastAPI backend
+- React and Vite dashboard
+- Chart.js visualizations
+- Power BI report
+- Project documentation
+- Configuration examples
